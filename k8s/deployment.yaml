@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: springboot-webapp-pod
-        image: kwonghung/spring-boot-to-skaffold
+        image: kwonghung/springboot-to-skaffold
         ports:
         - containerPort: 8080
