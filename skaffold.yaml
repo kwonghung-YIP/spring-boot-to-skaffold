@@ -2,6 +2,9 @@ apiVersion: skaffold/v2beta9
 kind: Config
 metadata:
   name: springboot-to-skaffold
+build:
+  artifacts:
+  - image: docker.io/kwonghung/springboot-to-skaffold  
 
 deploy:
   kubectl:
