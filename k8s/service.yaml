@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: springboot-webapp-svc
   labels:
-    app-svc: springboot-webapp-svc
+    app-svc: springboot-webapp
 spec:
   selector:
-    app-pod: springboot-webapp-pod
+    app-pod: springboot-webapp
   ports:
   - name: http
     protocol: TCP
