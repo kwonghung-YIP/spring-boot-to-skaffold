@@ -4,7 +4,10 @@ metadata:
   name: springboot-to-skaffold
 build:
   artifacts:
-  - image: docker.io/kwonghung/springboot-to-skaffold  
+  - image: docker.io/kwonghung/springboot-to-skaffold
+    jib:
+      type: maven
+
 
 deploy:
   kubectl:

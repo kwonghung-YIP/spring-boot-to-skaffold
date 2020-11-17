@@ -8,11 +8,11 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app-pod: springboot-webapp
+      app-pod: springboot-webapp-pod
   template:
     metadata:
       labels:
-        app-pod: springboot-webapp
+        app-pod: springboot-webapp-pod
     spec:
       containers:
       - name: springboot-webapp-pod
