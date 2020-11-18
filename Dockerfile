@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:experimental
-FROM openjdk:8-jdk-alpine as build
+FROM openjdk:11.0.9.1-jdk-slim as build
 WORKDIR /workspace/app
 
 COPY mvnw .
