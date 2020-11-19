@@ -24,3 +24,8 @@ pong
 curl --user john:passw0rd localhost:8080/greeting
 Hello john
 ```
+
+# grep container process id (with docker daemon)
+```
+ps -ef | grep `docker inspect -f '{{.State.Pid}}' hung-test`
+```
