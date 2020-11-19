@@ -11,5 +11,7 @@ skaffold dev \
 # mount maven cache in RUN in Dockerfile
 ```
 RUN --mount=type=cache,target=/root/.m2 ./mvnw install -DskipTests
+...
+DOCKER_BUILDKIT=1 docker build -t kwonghung/springboot-to-skaffold .
 ```
 [Docker - Build image with BuildKit](https://docs.docker.com/develop/develop-images/build_enhancements/)
