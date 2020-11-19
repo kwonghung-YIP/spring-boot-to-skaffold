@@ -12,7 +12,7 @@ skaffold dev \
 ```
 RUN --mount=type=cache,target=/root/.m2 ./mvnw install -DskipTests
 ...
-DOCKER_BUILDKIT=1 docker build -t kwonghung/springboot-to-skaffold .
+DOCKER_BUILDKIT=1 docker build --no-cache -t kwonghung/springboot-to-skaffold .
 ...
 curl localhost:8080/ping
 pong
