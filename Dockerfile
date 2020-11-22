@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:experimental
-FROM openjdk:11.0.9.1-jdk-slim as build
+FROM maven:3.6.3-openjdk-11 as  build
 WORKDIR /workspace/app
 
 COPY mvnw .
@@ -7,11 +7,15 @@ COPY .mvn .mvn
 COPY pom.xml .
 COPY src src
 
-#RUN --mount=type=cache,target=/root/.m2 ./mvnw install -DskipTests
-RUN ./mvnw install -DskipTests
+#RUN chmod u+x ./mvnw
+RUN --mount=type=cache,target=/root/.m2 mvn package -DskipTests
+#RUN ./mvnw install -DskipTests
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
-FROM openjdk:11.0.9.1-jdk-slim
+FROM openjdk:11-jre-slim
+RUN useradd -m --uid 10001 --system springboot
+USER springboot
+
 VOLUME /tmp
 ARG DEPENDENCY=/workspace/app/target/dependency
 COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib

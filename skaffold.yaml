@@ -4,7 +4,14 @@ metadata:
   name: springboot-to-skaffold
 build:
   artifacts:
-  - image: docker.io/kwonghung/springboot-to-skaffold
+  - image: kwonghung/springboot-to-skaffold
+    docker:
+      noCache: false
+  tagPolicy:
+    gitCommit: {}
+  local:
+    useDockerCLI: false
+    useBuildkit: true
 
 
 deploy:
