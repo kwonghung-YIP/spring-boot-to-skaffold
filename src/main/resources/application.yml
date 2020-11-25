@@ -3,4 +3,16 @@ spring:
     user:
       name: john
       password: passw0rd
-      
+
+management:
+  endpoint:
+    env:
+      enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: env,metrics,prometheus
