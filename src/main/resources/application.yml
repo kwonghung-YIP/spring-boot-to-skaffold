@@ -3,4 +3,30 @@ spring:
     user:
       name: john
       password: passw0rd
-      
+
+management:
+  health:
+    probes:
+      enabled: true
+    #livenessstate:    #  enabled: true
+    #readinessstate:    #  enabled: true
+
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+      show-components: always
+    env:
+      enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+        - env
+        - health
+        - metrics
+        - prometheus
