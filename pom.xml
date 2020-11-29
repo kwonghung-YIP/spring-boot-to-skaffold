@@ -84,7 +84,7 @@
 					</to>
 					<container>
 						<format>OCI</format>
-						<user>noroot</user>
+						<!-- <user>noroot</user> -->
 					</container>
 				</configuration>
 			</plugin>			
