@@ -20,15 +20,67 @@ spec:
         ports:
         - name: http
           containerPort: 8080
+        - name: actuator
+          containerPort: 8090
         livenessProbe:
           httpGet:
             path: /actuator/health/liveness
-            port: http
-          initialDelaySeconds: 30
+            port: actuator
+          initialDelaySeconds: 15
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /actuator/health/readiness
-            port: http
-          initialDelaySeconds: 30
+            port: actuator
+          initialDelaySeconds: 15
           periodSeconds: 5
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  labels:
+    app-group: monitoring
+    app: prometheus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app-group: monitoring
+        app: prometheus
+    spec:
+      containers:
+      - name: prometheus
+        image: prom/prometheus:v2.23.0
+        ports:
+        - name: http
+          containerPort: 9090
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  labels:
+    app-group: monitoring
+    app: grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app-group: monitoring
+        app: grafana
+    spec:
+      containers:
+      - name: grafana
+        image: grafana/grafana:7.3.4
+        ports:
+        - name: http
+          containerPort: 3000
