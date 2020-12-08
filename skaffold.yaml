@@ -4,9 +4,20 @@ metadata:
   name: springboot-to-skaffold
 build:
   artifacts:
-  - image: docker.io/kwonghung/springboot-to-skaffold
+
+  - image: kwonghung/springboot-to-skaffold
     buildpacks:
       builder: paketobuildpacks/builder:base
+
+  - image: kwonghung/springboot-promethues
+    context: ./prometheus
+    docker:
+      dockerfile: Dockerfile
+
+  - image: kwonghung/springboot-grafana
+    context: ./grafana
+    docker:
+      dockerfile: Dockerfile
 
 deploy:
   kubectl:
