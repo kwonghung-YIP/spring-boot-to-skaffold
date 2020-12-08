@@ -6,6 +6,8 @@ build:
   artifacts:
   
   - image: kwonghung/springboot-to-skaffold
+    jib:
+      type: maven
 
   
   - image: kwonghung/springboot-promethues
