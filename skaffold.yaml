@@ -4,18 +4,26 @@ metadata:
   name: springboot-to-skaffold
 build:
   artifacts:
+  
   - image: kwonghung/springboot-to-skaffold
-    jib:
-      type: maven
+
+  
   - image: kwonghung/springboot-promethues
     context: ./prometheus
     docker:
       dockerfile: Dockerfile
+  
   - image: kwonghung/springboot-grafana
     context: ./grafana
     docker:
       dockerfile: Dockerfile
 
+  tagPolicy:
+    gitCommit: {}
+  local:
+    useDockerCLI: false
+    useBuildkit: true
+    
 deploy:
   kubectl:
     manifests:
