@@ -42,8 +42,33 @@ scrape_configs:
   - source_labels: [__meta_kubernetes_pod_name,__meta_kubernetes_pod_ip]
     target_label: pod
     replacement: ${1}(${2})
+    action: replace
   
   - source_labels: [__meta_kubernetes_pod_node_name,__meta_kubernetes_pod_host_ip]
     target_label: node
     replacement: ${1}\(${2}\)
+    
+- job_name: my-springboot-service
+  scrape_interval: 5s
+  metrics_path: /actuator/prometheus
   
+  kubernetes_sd_configs:
+  - role: service
+    selectors:
+    - role: service
+      label: "app-svc=springboot-webapp"
+  
+  relabel_configs:
+  - source_labels: [__meta_kubernetes_service_port_name]
+    regex: (actuator)
+    action: keep
+
+- job_name: kubernetes-node
+  scrape_interval: 5s
+  scheme: https
+  tls_config:
+    ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+  bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+  
+  kubernetes_sd_configs:
+  - role: node  
