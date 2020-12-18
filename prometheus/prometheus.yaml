@@ -2,6 +2,7 @@ global:
   scrape_interval: 20s
   scrape_timeout: 10s
   evaluation_interval: 15s
+
 alerting:
   alertmanagers:
   - scheme: http
@@ -9,7 +10,9 @@ alerting:
     api_version: v1
     static_configs:
     - targets: []
+
 scrape_configs:
+
 - job_name: prometheus
   honor_timestamps: true
   scrape_interval: 15s
@@ -19,3 +22,53 @@ scrape_configs:
   static_configs:
   - targets:
     - localhost:9090
+
+- job_name: my-springboot-pods
+  scrape_interval: 5s
+  metrics_path: /actuator/prometheus
+  scheme: http
+  
+  kubernetes_sd_configs:
+  - role: pod
+    selectors:
+    - role: pod
+      label: "app-pod=springboot-webapp"
+
+  relabel_configs:
+  - source_labels: [__meta_kubernetes_pod_container_port_name]
+    regex: (actuator)
+    action: keep
+  
+  - source_labels: [__meta_kubernetes_pod_name,__meta_kubernetes_pod_ip]
+    target_label: pod
+    replacement: ${1}(${2})
+    action: replace
+  
+  - source_labels: [__meta_kubernetes_pod_node_name,__meta_kubernetes_pod_host_ip]
+    target_label: node
+    replacement: ${1}\(${2}\)
+    
+- job_name: my-springboot-service
+  scrape_interval: 5s
+  metrics_path: /actuator/prometheus
+  
+  kubernetes_sd_configs:
+  - role: service
+    selectors:
+    - role: service
+      label: "app-svc=springboot-webapp"
+  
+  relabel_configs:
+  - source_labels: [__meta_kubernetes_service_port_name]
+    regex: (actuator)
+    action: keep
+
+- job_name: kubernetes-node
+  scrape_interval: 5s
+  scheme: https
+  tls_config:
+    ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+  bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+  
+  kubernetes_sd_configs:
+  - role: node  
