@@ -9,6 +9,7 @@ build:
     docker:
       noCache: false
 
+
   - image: kwonghung/springboot-promethues
     context: ./prometheus
     docker:
